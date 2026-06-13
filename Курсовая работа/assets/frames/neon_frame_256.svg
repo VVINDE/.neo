@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none">
+  <defs>
+    <linearGradient id="neonStroke" x1="22" y1="20" x2="234" y2="236" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#68D9FF"/>
+      <stop offset="0.47" stop-color="#7B7CFF"/>
+      <stop offset="1" stop-color="#C36BFF"/>
+    </linearGradient>
+
+    <linearGradient id="darkEdge" x1="22" y1="20" x2="234" y2="236" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#25283A"/>
+      <stop offset="0.55" stop-color="#11121C"/>
+      <stop offset="1" stop-color="#222034"/>
+    </linearGradient>
+
+    <filter id="outerGlow" x="-45%" y="-45%" width="190%" height="190%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#5BCBFF" flood-opacity="0.70"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="13" flood-color="#9A5CFF" flood-opacity="0.50"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="24" flood-color="#6D39FF" flood-opacity="0.22"/>
+    </filter>
+
+    <filter id="softGlow" x="-35%" y="-35%" width="170%" height="170%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#7DDCFF" flood-opacity="0.85"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#A35DFF" flood-opacity="0.55"/>
+    </filter>
+
+    <filter id="innerShadow" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+
+  <!-- Main transparent cyber frame, 256x256. No background rectangle. -->
+  <path id="frameShape"
+        d="M45 16 H86 L96 26 H160 L170 16 H211 Q240 16 240 45 V87 L230 98 V158 L240 169 V211 Q240 240 211 240 H170 L160 230 H96 L86 240 H45 Q16 240 16 211 V169 L26 158 V98 L16 87 V45 Q16 16 45 16 Z"
+        stroke="url(#darkEdge)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" filter="url(#outerGlow)"/>
+
+  <path d="M45 16 H86 L96 26 H160 L170 16 H211 Q240 16 240 45 V87 L230 98 V158 L240 169 V211 Q240 240 211 240 H170 L160 230 H96 L86 240 H45 Q16 240 16 211 V169 L26 158 V98 L16 87 V45 Q16 16 45 16 Z"
+        stroke="#06070C" stroke-opacity="0.88" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <path d="M45 16 H86 L96 26 H160 L170 16 H211 Q240 16 240 45 V87 L230 98 V158 L240 169 V211 Q240 240 211 240 H170 L160 230 H96 L86 240 H45 Q16 240 16 211 V169 L26 158 V98 L16 87 V45 Q16 16 45 16 Z"
+        stroke="url(#neonStroke)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" filter="url(#softGlow)"/>
+
+  <path d="M50 28 H91 L100 37 H156 L165 28 H207 Q228 28 228 50 V92 L219 102 V154 L228 164 V207 Q228 228 207 228 H165 L156 219 H100 L91 228 H50 Q28 228 28 207 V164 L37 154 V102 L28 92 V50 Q28 28 50 28 Z"
+        stroke="#1D2030" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="url(#innerShadow)"/>
+
+  <path d="M50 28 H91 L100 37 H156 L165 28 H207 Q228 28 228 50 V92 L219 102 V154 L228 164 V207 Q228 228 207 228 H165 L156 219 H100 L91 228 H50 Q28 228 28 207 V164 L37 154 V102 L28 92 V50 Q28 28 50 28 Z"
+        stroke="url(#neonStroke)" stroke-opacity="0.62" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Small premium HUD accents -->
+  <path d="M74 21 H90 L99 30 H157 L166 21 H182" stroke="#C9B7FF" stroke-opacity="0.34" stroke-width="1.3" stroke-linecap="round"/>
+  <path d="M74 235 H90 L99 226 H157 L166 235 H182" stroke="#8B7CFF" stroke-opacity="0.32" stroke-width="1.3" stroke-linecap="round"/>
+  <path d="M21 75 V91 L31 101 V155 L21 165 V181" stroke="#76DFFF" stroke-opacity="0.42" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M235 75 V91 L225 101 V155 L235 165 V181" stroke="#C36BFF" stroke-opacity="0.42" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- Tiny highlight cuts -->
+  <path d="M42 31 Q30 35 30 49" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M214 225 Q226 221 226 207" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="1.2" stroke-linecap="round"/>
+</svg>

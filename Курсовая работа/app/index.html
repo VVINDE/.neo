@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Приложение</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/app.css" />
+  </head>
+  <body>
+    <div class="bg-noise" aria-hidden="true"></div>
+
+    <div class="app-layout">
+      <div class="sidebar-col" id="sidebar-col">
+      <aside class="desktop-sidebar" aria-label="Основные разделы">
+        <div class="desktop-sidebar__brand">
+          <span class="desktop-sidebar__brand-name">.neo</span>
+          <span class="desktop-sidebar__brand-mark" aria-hidden="true">
+            <img
+              class="desktop-sidebar__brand-icon"
+              src="../assets/lancelot-logo.svg"
+              width="30"
+              height="30"
+              alt=""
+            />
+          </span>
+        </div>
+        <nav class="desktop-sidebar__nav">
+          <button type="button" class="desktop-sidebar__btn nav-tab-btn is-active" data-tab="feed" aria-current="page">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M4 10.5L12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5z" />
+            </svg>
+            Лента
+          </button>
+          <button type="button" class="desktop-sidebar__btn nav-tab-btn" data-tab="chats">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8z" />
+            </svg>
+            Чаты
+          </button>
+          <button type="button" class="desktop-sidebar__btn nav-tab-btn" data-tab="menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            Меню
+          </button>
+        </nav>
+      </aside>
+      </div>
+      <button
+        type="button"
+        class="sidebar-resizer"
+        id="sidebar-resizer"
+        aria-label="Изменить ширину боковой панели"
+        title="Потяните границу, чтобы скрыть или расширить панель. Двойной щелчок — сброс."
+      ></button>
+
+    <div id="app-root" class="app">
+      <main class="app-main">
+        <!-- Лента -->
+        <section id="view-feed" class="view is-active" aria-label="Лента">
+          <h2 class="screen-title">Лента</h2>
+          <form id="post-form" class="bento-tile bento-tile--composer post-composer" autocomplete="off">
+            <div id="post-media-draft" class="media-draft" hidden>
+              <div id="post-media-grid" class="media-draft__grid bento-media-grid" aria-live="polite"></div>
+            </div>
+            <div class="post-composer__row">
+              <label class="sr-only" for="post-input">Пост</label>
+              <textarea id="post-input" class="composer__input composer__input--bento" rows="2" maxlength="2000" placeholder="Что нового?"></textarea>
+              <div class="post-composer__tools">
+                <label class="post-tool-btn" title="Фото и видео">
+                  <input id="post-image-input" type="file" accept="image/*,video/*" multiple hidden />
+                  📷
+                </label>
+                <button type="button" class="btn btn--ghost btn--icon" id="post-emoji-btn" title="Эмодзи" aria-label="Эмодзи">😊</button>
+                <span id="post-attachment-hint" class="post-composer__hint" hidden></span>
+              </div>
+              <button type="submit" class="btn btn--primary post-composer__btn">Опубликовать</button>
+            </div>
+          </form>
+          <div class="scroll-area scroll-area--padded feed-body">
+            <div id="feed-posts" class="bento-feed" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <!-- Чаты -->
+        <section id="view-chats" class="view" hidden aria-label="Чаты">
+          <h2 class="screen-title">Чаты</h2>
+          <div class="search-row">
+            <input id="chat-search" class="search-field" type="search" name="q" autocomplete="off" />
+          </div>
+          <div class="scroll-area scroll-area--padded">
+            <div class="section-gap" aria-live="polite">
+              <section class="chat-block" id="chat-block-active" aria-label="Активные чаты">
+                <div class="chat-block__title">Активные чаты</div>
+                <div id="chat-list" class="section-gap"></div>
+              </section>
+
+              <section class="chat-block" id="chat-block-search" hidden aria-label="Результаты поиска">
+                <div class="chat-block__title">Результаты поиска</div>
+                <div class="section-gap">
+                  <div id="chat-search-chats" class="chat-subblock"></div>
+                  <div id="chat-search-users" class="chat-subblock"></div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </section>
+
+        <!-- Меню -->
+        <section id="view-menu" class="view" hidden aria-label="Меню">
+          <h2 class="screen-title">Меню</h2>
+          <div class="scroll-area scroll-area--padded section-gap">
+            <nav class="menu-list">
+              <button type="button" class="menu-link" data-go="friends">
+                Друзья
+                <span class="menu-link__chevron" aria-hidden="true">›</span>
+              </button>
+              <button type="button" class="menu-link" data-go="profile-self">
+                Профиль
+                <span class="menu-link__chevron" aria-hidden="true">›</span>
+              </button>
+              <button type="button" class="menu-link" data-go="settings">
+                Настройки
+                <span class="menu-link__chevron" aria-hidden="true">›</span>
+              </button>
+            </nav>
+          </div>
+        </section>
+
+        <!-- Друзья -->
+        <section id="view-friends" class="view" hidden aria-label="Друзья">
+          <header class="topbar">
+            <button type="button" class="btn btn--ghost btn--icon topbar__back" data-back aria-label="Назад">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <h2 class="topbar__title">Друзья</h2>
+          </header>
+          <div class="scroll-area scroll-area--padded">
+            <div id="friends-list" class="section-gap" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <!-- Настройки (пустой экран) -->
+        <section id="view-settings" class="view" hidden aria-label="Настройки">
+          <header class="topbar">
+            <button type="button" class="btn btn--ghost btn--icon topbar__back" data-back aria-label="Назад">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <h2 class="topbar__title">Настройки</h2>
+          </header>
+          <div class="scroll-area scroll-area--padded">
+            <form id="profile-editor-form" class="glass-panel profile-editor-form" autocomplete="off">
+              <div class="field">
+                <span class="field__label">Имя</span>
+                <input id="editor-name" class="search-field" type="text" autocomplete="given-name" />
+              </div>
+              <div class="field">
+                <span class="field__label">Фамилия</span>
+                <input id="editor-last-name" class="search-field" type="text" autocomplete="family-name" />
+              </div>
+              <div class="field">
+                <span class="field__label">Отчество</span>
+                <input id="editor-patronymic" class="search-field" type="text" autocomplete="additional-name" />
+              </div>
+              <div class="field">
+                <span class="field__label">Дата рождения</span>
+                <input id="editor-birth-date" class="search-field" type="date" />
+              </div>
+              <div class="field">
+                <span class="field__label">Город</span>
+                <input id="editor-city" class="search-field" type="text" />
+              </div>
+              <div class="field">
+                <span class="field__label">Место учебы</span>
+                <input id="editor-education" class="search-field" type="text" />
+              </div>
+              <div class="field">
+                <span class="field__label">Семейное положение</span>
+                <input id="editor-relation-status" class="search-field" type="text" />
+              </div>
+              <div class="field">
+                <span class="field__label">О себе</span>
+                <textarea id="editor-about" class="composer__input profile-editor-form__textarea" rows="4"></textarea>
+              </div>
+              <div class="profile-editor-form__uploads">
+                <label class="profile-avatar-upload">
+                  <input id="editor-avatar-input" type="file" accept="image/*" hidden />
+                  Сменить аватар
+                </label>
+                <label class="profile-avatar-upload">
+                  <input id="editor-banner-input" type="file" accept="image/*" hidden />
+                  Сменить баннер
+                </label>
+              </div>
+              <div class="field">
+                <span class="field__label">Рамка аватара</span>
+                <p class="field__hint">SVG или PNG 256×256 px с прозрачным центром — рамка накладывается поверх фото.</p>
+                <input id="editor-avatar-frame" type="hidden" />
+                <div id="frame-picker" class="frame-picker" aria-label="Выбор рамки аватара"></div>
+              </div>
+              <button type="submit" class="btn btn--primary">Сохранить профиль</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Профиль (чужой / просмотр) -->
+        <section id="view-profile" class="view" hidden aria-label="Профиль">
+          <header class="topbar">
+            <button type="button" class="btn btn--ghost btn--icon topbar__back" data-back aria-label="Назад">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <h2 class="topbar__title">Профиль</h2>
+          </header>
+          <div class="scroll-area">
+            <div class="profile-hero profile-hero--no-banner" id="profile-hero">
+              <img id="profile-banner-img" class="profile-hero__banner" alt="" hidden />
+              <button
+                type="button"
+                class="profile-hero__edit btn btn--ghost btn--icon"
+                id="profile-edit-btn"
+                aria-label="Редактировать профиль"
+                hidden
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 20h9" />
+                  <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
+                </svg>
+              </button>
+            </div>
+            <div class="profile-head bento-tile bento-tile--profile-head">
+              <div class="profile-avatar-wrap">
+                <div id="profile-avatar-mount" class="profile-avatar-mount" aria-hidden="false"></div>
+              </div>
+              <div class="profile-meta">
+                <p class="profile-name"></p>
+              </div>
+              <div class="profile-actions">
+                <button type="button" class="btn btn--primary" id="profile-write-btn">Написать</button>
+                <button type="button" class="btn btn--ghost" id="profile-ban-btn" hidden>Бан</button>
+                <button type="button" class="btn btn--ghost" id="profile-delete-btn" hidden>Удалить</button>
+              </div>
+            </div>
+            <div class="profile-body section-gap">
+              <div class="profile-bento" aria-label="Информация о пользователе">
+                <article id="profile-tile-fio" class="bento-tile bento-tile--stat" hidden>
+                  <h3 class="bento-tile__label">ФИО</h3>
+                  <p id="profile-full-name" class="bento-tile__value"></p>
+                </article>
+                <article id="profile-tile-about" class="bento-tile bento-tile--wide bento-tile--stat" hidden>
+                  <h3 class="bento-tile__label">О себе</h3>
+                  <p id="profile-about" class="bento-tile__value bento-tile__value--multiline"></p>
+                </article>
+                <article id="profile-tile-relation" class="bento-tile bento-tile--stat" hidden>
+                  <h3 class="bento-tile__label">Семейное положение</h3>
+                  <p id="profile-relation-status" class="bento-tile__value"></p>
+                </article>
+                <article id="profile-tile-education" class="bento-tile bento-tile--stat" hidden>
+                  <h3 class="bento-tile__label">Место учебы</h3>
+                  <p id="profile-education" class="bento-tile__value"></p>
+                </article>
+                <article id="profile-tile-city" class="bento-tile bento-tile--stat" hidden>
+                  <h3 class="bento-tile__label">Город</h3>
+                  <p id="profile-city" class="bento-tile__value"></p>
+                </article>
+              </div>
+              <div class="wall-block">
+                <h3 class="wall-block__title">Стена</h3>
+                <form id="wall-form" class="bento-tile bento-tile--composer wall-composer" autocomplete="off" hidden>
+                  <div id="wall-media-draft" class="media-draft" hidden>
+                    <div id="wall-media-grid" class="media-draft__grid bento-media-grid" aria-live="polite"></div>
+                  </div>
+                  <textarea id="wall-input" class="composer__input composer__input--bento" rows="2" maxlength="4000" placeholder="Запись на стене…"></textarea>
+                  <div class="wall-composer__tools">
+                    <label class="wall-tool-btn" title="Фото и видео">
+                      <input id="wall-media-input" type="file" accept="image/*,video/*" multiple hidden />
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="1.5"/><path d="M21 15l-5-5L8 18"/></svg>
+                    </label>
+                    <label class="wall-tool-btn" title="Файл">
+                      <input id="wall-file-input" type="file" multiple hidden />
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                    </label>
+                    <span id="wall-attachment-hint" class="wall-attachment-hint" hidden></span>
+                  </div>
+                  <button type="submit" class="btn btn--primary wall-composer__submit">На стену</button>
+                </form>
+                <div id="profile-wall" class="bento-feed wall-posts" style="min-height: 160px" aria-live="polite"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Переписка -->
+        <section id="view-thread" class="view" hidden aria-label="Чат">
+          <header class="thread-header topbar">
+            <button type="button" class="btn btn--ghost btn--icon topbar__back" data-back aria-label="Назад">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <div class="thread-header__peer" id="thread-header-peer">
+              <div id="thread-peer-avatar" class="thread-header__avatar"></div>
+              <button type="button" class="thread-header__name" id="thread-peer-btn">Чат</button>
+            </div>
+            <div class="topbar__spacer" aria-hidden="true"></div>
+          </header>
+          <div class="thread-messages scroll-area scroll-area--padded">
+            <div id="thread-messages-list" class="section-gap thread-messages-list" aria-live="polite"></div>
+          </div>
+          <footer class="composer">
+            <div class="composer__row">
+              <div class="composer__tools">
+                <button type="button" class="btn btn--ghost btn--icon" id="chat-emoji-btn" title="Эмодзи" aria-label="Эмодзи">
+                  <span aria-hidden="true" style="font-size: 1.15rem">☺</span>
+                </button>
+                <button type="button" class="btn btn--ghost btn--icon" id="chat-image-btn" title="Фото" aria-label="Фото">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="5" width="18" height="14" rx="2" />
+                    <circle cx="8.5" cy="11" r="1.5" />
+                    <path d="M21 15l-5-5L8 18" />
+                  </svg>
+                </button>
+                <button type="button" class="btn btn--ghost btn--icon" id="chat-video-btn" title="Видео" aria-label="Видео">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="5" width="15" height="14" rx="2" />
+                    <path d="M17 10l5-3v10l-5-3v-4z" />
+                  </svg>
+                </button>
+                <input id="chat-video-input" type="file" accept="video/*" hidden />
+                <button type="button" class="btn btn--ghost btn--icon" id="chat-voice-btn" title="Голосовое" aria-label="Голосовое сообщение">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3z" />
+                    <path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v3M8 21h8" />
+                  </svg>
+                </button>
+              </div>
+              <div class="composer__input-wrap">
+                <label class="sr-only" for="msg-input">Сообщение</label>
+                <textarea
+                  id="msg-input"
+                  class="composer__input"
+                  rows="1"
+                  autocomplete="off"
+                ></textarea>
+                <input id="chat-image-input" type="file" accept="image/*" hidden />
+                <button type="button" class="composer__send-btn" id="chat-send-btn" title="Отправить" aria-label="Отправить">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                    <path d="M22 2L11 13" />
+                    <path d="M22 2l-7 20-4-9-9-4 20-7z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div id="voice-recorder" class="voice-recorder" hidden>
+              <canvas id="voice-recorder-canvas" class="voice-recorder__canvas" width="560" height="80"></canvas>
+              <div class="voice-recorder__actions">
+                <button type="button" class="btn btn--ghost" id="voice-stop-btn">Стоп</button>
+                <button type="button" class="btn btn--primary" id="voice-send-btn" disabled>Отправить</button>
+                <button type="button" class="btn btn--ghost" id="voice-cancel-btn">Отмена</button>
+              </div>
+            </div>
+            <div id="chat-picker" class="chat-picker" hidden>
+              <div class="chat-picker__tabs">
+                <button type="button" class="chat-picker__tab is-active" data-picker-tab="emoji">Эмодзи</button>
+                <button type="button" class="chat-picker__tab" data-picker-tab="stickers">Стикеры</button>
+              </div>
+              <div id="chat-picker-emoji" class="chat-picker__panel"></div>
+              <div id="chat-picker-stickers" class="chat-picker__panel" hidden></div>
+            </div>
+          </footer>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="Основные разделы">
+        <button type="button" class="bottom-nav__btn nav-tab-btn is-active" data-tab="feed" aria-current="page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M4 10.5L12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5z" />
+          </svg>
+          Лента
+        </button>
+        <button type="button" class="bottom-nav__btn nav-tab-btn" data-tab="chats">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8z" />
+          </svg>
+          Чаты
+        </button>
+        <button type="button" class="bottom-nav__btn nav-tab-btn" data-tab="menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          Меню
+        </button>
+      </nav>
+    </div>
+    </div>
+
+    <div id="toast-root" class="toast-root" aria-live="polite"></div>
+
+    <div id="image-lightbox" class="image-lightbox" hidden>
+      <button type="button" class="image-lightbox__close" id="image-lightbox-close" aria-label="Закрыть">×</button>
+      <img id="image-lightbox-img" class="image-lightbox__img" src="" alt="Просмотр изображения" />
+    </div>
+
+    <div id="repost-modal" class="modal-overlay" hidden>
+      <div class="modal-panel repost-modal" role="dialog" aria-labelledby="repost-modal-title">
+        <button type="button" class="modal-close btn btn--ghost btn--icon" id="repost-modal-close" aria-label="Закрыть">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <h3 id="repost-modal-title" class="modal-title">Поделиться</h3>
+        <div id="repost-step-choice" class="repost-step">
+          <p class="modal-subtitle">Куда отправить пост?</p>
+          <div class="repost-choice-grid">
+            <button type="button" class="repost-choice-btn" id="repost-to-friend">
+              <span class="repost-choice-btn__icon">💬</span>
+              <span class="repost-choice-btn__label">Другу в чат</span>
+            </button>
+            <button type="button" class="repost-choice-btn" id="repost-to-wall">
+              <span class="repost-choice-btn__icon">📌</span>
+              <span class="repost-choice-btn__label">На мою стену</span>
+            </button>
+          </div>
+        </div>
+        <div id="repost-step-friends" class="repost-step" hidden>
+          <p class="modal-subtitle">Выберите друга</p>
+          <div id="repost-friends-list" class="repost-friends-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

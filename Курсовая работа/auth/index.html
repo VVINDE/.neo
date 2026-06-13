@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Вход — мессенджер</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-noise" aria-hidden="true"></div>
+    <main class="page">
+      <section class="auth-shell" aria-labelledby="auth-title">
+        <div class="auth-card">
+          <div class="auth-card__glow" aria-hidden="true"></div>
+          <header class="auth-header">
+            <div class="auth-header__row">
+              <div class="auth-header__text">
+                <h1 id="auth-title" class="auth-title">Добро пожаловать</h1>
+                <p class="auth-subtitle">Войдите или создайте аккаунт — данные сохраняются на сервере (локальная БД).</p>
+              </div>
+              <img
+                class="auth-logo"
+                src="../assets/lancelot-logo.svg"
+                width="56"
+                height="56"
+                alt="Lancelot"
+              />
+            </div>
+          </header>
+
+          <div class="tabs" role="tablist" aria-label="Режим входа">
+            <button
+              type="button"
+              class="tabs__btn is-active"
+              role="tab"
+              aria-selected="true"
+              aria-controls="panel-login"
+              id="tab-login"
+              data-panel="login"
+            >
+              Вход
+            </button>
+            <button
+              type="button"
+              class="tabs__btn"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-register"
+              id="tab-register"
+              data-panel="register"
+            >
+              Регистрация
+            </button>
+          </div>
+
+          <div
+            id="panel-login"
+            class="panel is-visible"
+            role="tabpanel"
+            aria-labelledby="tab-login"
+          >
+            <form class="form" id="form-login" novalidate>
+              <label class="field">
+                <span class="field__label">Email</span>
+                <input
+                  class="field__input"
+                  type="email"
+                  name="email"
+                  autocomplete="username"
+                  placeholder="you@example.com"
+                  required
+                />
+              </label>
+              <label class="field">
+                <span class="field__label">Пароль</span>
+                <input
+                  class="field__input"
+                  type="password"
+                  name="password"
+                  autocomplete="current-password"
+                  placeholder="••••••••"
+                  required
+                />
+              </label>
+              <button type="submit" class="btn btn--primary">Войти</button>
+            </form>
+          </div>
+
+          <div
+            id="panel-register"
+            class="panel"
+            role="tabpanel"
+            aria-labelledby="tab-register"
+            hidden
+          >
+            <form class="form" id="form-register" novalidate>
+              <label class="field">
+                <span class="field__label">Имя</span>
+                <input
+                  class="field__input"
+                  type="text"
+                  name="name"
+                  autocomplete="name"
+                  placeholder="Как вас называть"
+                  required
+                />
+              </label>
+              <label class="field">
+                <span class="field__label">Дата рождения</span>
+                <input
+                  class="field__input"
+                  type="date"
+                  name="birth_date"
+                  required
+                />
+              </label>
+              <label class="field">
+                <span class="field__label">Email</span>
+                <input
+                  class="field__input"
+                  type="email"
+                  name="email"
+                  autocomplete="email"
+                  placeholder="you@example.com"
+                  required
+                />
+              </label>
+              <label class="field">
+                <span class="field__label">Пароль</span>
+                <input
+                  class="field__input"
+                  type="password"
+                  name="password"
+                  autocomplete="new-password"
+                  placeholder="Не меньше 8 символов"
+                  minlength="8"
+                  required
+                />
+              </label>
+              <label class="field">
+                <span class="field__label">Повтор пароля</span>
+                <input
+                  class="field__input"
+                  type="password"
+                  name="password2"
+                  autocomplete="new-password"
+                  placeholder="Ещё раз"
+                  required
+                />
+              </label>
+              <button type="submit" class="btn btn--primary">Создать аккаунт</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
